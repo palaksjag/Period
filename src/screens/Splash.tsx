@@ -1,24 +1,26 @@
 import WaterAnimation from "@/assets/images/WaterAnimation.json";
 import LottieView from "lottie-react-native";
-import React,{useEffect} from 'react';
+import React,{useEffect, useState} from 'react';
 import { View,StyleSheet } from 'react-native';
 
-const Splash = ({ onFinish }: { onFinish: () => void }) => {
+const Splash = () => {
+  const [visible, setVisible] = useState(true);
   useEffect(() => {
-    // Hide splash after animation duration
-    const timer = setTimeout(() => {
-      onFinish();
-    }, 3000); // adjust based on animation length
+  const timer = setTimeout(() => {
+      setVisible(false);
+    }, 3000);
+
     return () => clearTimeout(timer);
-  }, [onFinish]);
+  }, []);
+
+  if (!visible) return null; 
 
   return (
     <View style={styles.container}>
       <LottieView
         source={WaterAnimation}        
         autoPlay
-        loop={false}
-        onAnimationFinish={onFinish} // alternative to timer
+        loop={false} 
       />
     </View>
   );
@@ -27,7 +29,7 @@ const Splash = ({ onFinish }: { onFinish: () => void }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "centwer",
+    justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#fff", // match app background
   },
